@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<bean id="aBean" class="com.spring.ioc.beans.ClassA" scope = "singleton">
+		<property name="b" ref="bBean"/>
+	</bean>
+	
+	<bean id="bBean" class="com.spring.ioc.beans.ClassB" scope = "prototype"/>
+	<!-- Scope of ClassB changes to singleton
+		 To make ClassB prototype with ClassA singleton, follow defensive approach
+		 By implementing ApplicationContextAware and returning new instance in getter -->
+	
+	<bean id="cBean" class="com.spring.ioc.beans.ClassC" scope = "prototype">
+		<property name="d" ref="dBean"/>
+	</bean>
+	
+	<bean id="dBean" class="com.spring.ioc.beans.ClassD" scope = "singleton"/>
+	
+	<!-- Scope of ClassD will always be same, but ClassC will have new instance
+		 That is the same ClassD instance will be injected into different prototype instances of ClassC-->
+	
+</beans>
